@@ -11,6 +11,8 @@
 
 using System;
 using System.IO;
+using System.Reflection;
+using System.Threading;
 using Newtonsoft.Json.Linq;
 using SDG.Unturned;
 using ZomboMod.Configuration;
@@ -64,8 +66,6 @@ namespace ZomboMod
             {
                 throw new InvalidOperationException( "Zombo already initalized!" );
             }
-
-            Console.WriteLine( "sdasdasaddsadsassdasadadssad" );
 
             InstanceName    = Dedicator.serverID;
             Folder          = $"Servers/{InstanceName}/Zombo/";
@@ -125,17 +125,17 @@ namespace ZomboMod
                 ECameraMode camera;
                 int maxPlayers, port;
                 
-                if ( !Enum.TryParse( json["GameMode"].ToString(), true, out gamemode ) || gamemode == EGameMode.ANY )
+                if ( !TryParseEnum( json["GameMode"].ToString(), out gamemode ) || gamemode == EGameMode.ANY )
                 {
                     throw new ArgumentException( $"Invalid GameMode '{json["GameMode"]}'. Expected 'EASY, NORMAL, HARD or PRO'." );
                 }
                 
-                if ( !Enum.TryParse( json["Security"].ToString(), true, out security ) )
+                if ( !TryParseEnum( json["Security"].ToString(), out security ) )
                 {
                     throw new ArgumentException( $"Invalid Security '{json["Security"]}'. Expected 'SECURE, INSECURE or LAN'." );
                 }
                 
-                if ( !Enum.TryParse( json["CameraMode"].ToString(), true, out camera ) || camera == ECameraMode.ANY )
+                if ( !TryParseEnum( json["CameraMode"].ToString(), out camera ) || camera == ECameraMode.ANY )
                 {
                     throw new ArgumentException( $"Invalid CameraMode '{json["CameraMode"]}'. Expected 'FIRST, THIRD or BOTH'." );
                 }
@@ -189,6 +189,20 @@ namespace ZomboMod
             public EGameMode GameMode;
             public ECameraMode CameraMode;
             public ESteamSecurity Security;
-        } 
+        }
+
+        private static bool TryParseEnum<T>( string raw, out T ret )
+        {
+            try
+            {
+                ret =  (T) Enum.Parse( typeof (T), raw, true );
+                return true;
+            }
+            catch (Exception)
+            {
+                ret = default(T);
+                return false;
+            }
+        }
     }
 }

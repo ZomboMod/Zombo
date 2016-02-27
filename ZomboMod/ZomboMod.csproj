@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Unturned\Rocket\All\Unturned_Data\Managed\</OutputPath>
+    <OutputPath>..\..\..\Unturned\Zombo\All\Unturned_Data\Managed\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,12 +36,10 @@
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Assembly-CSharp-firstpass.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,7 +52,6 @@
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\UnityEngine.dll</HintPath>
-      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +62,11 @@
     <Compile Include="src\Entity\UPlayer.cs" />
     <Compile Include="src\Entity\UVehicle.cs" />
     <Compile Include="src\Entity\UZombie.cs" />
+    <Compile Include="src\Plugin\PluginBase.cs" />
+    <Compile Include="src\Plugin\PluginInfo.cs" />
+    <Compile Include="src\Plugin\PluginLoader.cs" />
+    <Compile Include="src\Plugin\PluginLoadFlags.cs" />
+    <Compile Include="src\Plugin\PluginManager.cs" />
     <Compile Include="src\USkill.cs" />
     <Compile Include="src\Steam\SteamProfile.cs" />
     <Compile Include="src\UServer.cs" />

@@ -1,4 +1,6 @@
 ﻿using System;
+using SDG.Unturned;
+using ZomboMod.Plugin;
 
 namespace ZomboMod
 {
@@ -7,12 +9,27 @@ namespace ZomboMod
         /// <summary>
         /// Singleton instance of Unturned Server.
         /// </summary>
-        public static UServer Server { get; set; }
+        public static UServer Server { get; private set; }
 
         /// <summary>
         /// Singleton instance of Unturned world.
         /// </summary>
-        public static UWorld  World  { get; set; }
+        public static UWorld  World { get; private set; }
+
+        /// <summary>
+        /// Singleton instance of Zombo plugin manager.
+        /// </summary>
+        public static PluginManager PluginManager { get; private set; }
+
+        /// <summary>
+        /// Server instance name.
+        /// </summary>
+        public static string InstanceName { get; private set; }
+
+        /// <summary>
+        /// Zombo directory.
+        /// </summary>
+        public static string Directory { get; private set; }
 
         /// <summary>
         /// Called dinamically by ZomboCore.
@@ -24,8 +41,11 @@ namespace ZomboMod
                 throw new InvalidOperationException( "Zombo already initalized!" );
             }
 
-            Server  = new UServer();
-            World   = new UWorld();
+            InstanceName    = Dedicator.serverID;
+            Directory       = $"Servers/{InstanceName}/Zombo";
+
+            Server          = new UServer();
+            World           = new UWorld();
 
             // read settings
             // IP, port, pvp etc.

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using SDG.Unturned;
 using Steamworks;
+using ZomboMod.Entity;
 
 namespace ZomboMod
 {
@@ -70,6 +72,12 @@ namespace ZomboMod
         {
             get { return Provider.timeout; }
             set { Provider.timeout = value; }
+        }
+
+        public IEnumerable<UPlayer> OnlinePlayers
+        {
+            get;
+            set;
         }
 
         internal UServer()

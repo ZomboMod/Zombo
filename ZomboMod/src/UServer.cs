@@ -17,7 +17,6 @@ namespace ZomboMod
         public uint Ip
         {
             get { return Provider.ip; }
-            private set { Provider.ip = value; }
         }
 
         public ushort Port
@@ -38,7 +37,7 @@ namespace ZomboMod
             set { Provider.serverPassword = value; }
         }
 
-        public string MapName
+        public string Map
         {
             get { return Provider.map; }
             private set { Provider.map = value; }
@@ -80,9 +79,12 @@ namespace ZomboMod
             set;
         }
 
-        internal UServer()
+        internal UServer( ushort port, string map )
         {
-            
+            ConnectedPlayers = new List<UPlayer>();
+
+            Port = port;
+            Map = map;
         }
 
         public void Broadcast( params string[] messages )
@@ -99,5 +101,7 @@ namespace ZomboMod
         {
             throw new NotImplementedException();  
         }
+
+        internal List<UPlayer> ConnectedPlayers;
     }
 }

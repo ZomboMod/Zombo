@@ -65,16 +65,18 @@ namespace ZomboMod
                 throw new InvalidOperationException( "Zombo already initalized!" );
             }
 
+            Console.WriteLine( "sdasdasaddsadsassdasadadssad" );
+
             InstanceName    = Dedicator.serverID;
             Folder          = $"Servers/{InstanceName}/Zombo/";
             PluginsFolder   = Folder + "/Plugins/";
 
-            if ( Directory.Exists( Folder ) )
+            if ( !Directory.Exists( Folder ) )
             {
                 Directory.CreateDirectory( Folder );
             }
 
-            if ( Directory.Exists( PluginsFolder ) )
+            if ( !Directory.Exists( PluginsFolder ) )
             {
                 Directory.CreateDirectory( PluginsFolder );
             }

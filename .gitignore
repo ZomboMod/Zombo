@@ -1,4 +1,4 @@
 .vs/ 
 ZomboMod.Core/
 ZomboMod.Patcher/
-packages/
+packages/Mono.Cecil.0.9.6.1/

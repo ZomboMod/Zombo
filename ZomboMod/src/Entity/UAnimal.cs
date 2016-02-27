@@ -11,6 +11,8 @@ namespace ZomboMod.Entity
         public float Rotation { get; set; }
 
         public bool IsUnderWater { get; set; }
+        
+        public bool IsOnGround { get; set; }
 
         public bool IsDead { get; set; }
 

@@ -59,6 +59,8 @@ namespace ZomboMod.Entity
 
         public bool IsUnderWater { get; set; }
 
+        public bool IsOnGround { get; set; }
+
         public float Yaw { get; set; }
 
         public float Pitch { get; set; }

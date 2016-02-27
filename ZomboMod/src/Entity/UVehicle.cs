@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZomboMod.Entity
@@ -21,7 +22,7 @@ namespace ZomboMod.Entity
 
         public void Explode()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

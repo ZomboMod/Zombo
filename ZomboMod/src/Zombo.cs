@@ -1,4 +1,4 @@
-﻿/*
+﻿ /*
  *
  *   This file is part of ZomboMod Project.
  *     https://www.github.com/ZomboMod
@@ -11,8 +11,6 @@
 
 using System;
 using System.IO;
-using System.Reflection;
-using System.Threading;
 using Newtonsoft.Json.Linq;
 using SDG.Unturned;
 using ZomboMod.Configuration;
@@ -53,7 +51,7 @@ namespace ZomboMod
         public static string PluginsFolder { get; private set; }
 
         /// <summary>
-        /// 
+        /// Settings
         /// </summary>
         public static ZomboSettngs Settings { get; private set; }
 
@@ -106,6 +104,9 @@ namespace ZomboMod
             Server.Name = Settings.Server.Name;
             Server.Password = Settings.Server.Password;
             Server.Timeout = Settings.Server.Timeout;
+
+            PluginManager = new PluginManager();
+            PluginManager.Init();
         }
     }
 
@@ -125,28 +126,28 @@ namespace ZomboMod
                 ECameraMode camera;
                 int maxPlayers, port;
                 
-                if ( !TryParseEnum( json["GameMode"].ToString(), out gamemode ) || gamemode == EGameMode.ANY )
+                if ( !TryParseEnum( json["Server"]["GameMode"]?.ToString(), out gamemode ) || gamemode == EGameMode.ANY )
                 {
                     throw new ArgumentException( $"Invalid GameMode '{json["GameMode"]}'. Expected 'EASY, NORMAL, HARD or PRO'." );
                 }
                 
-                if ( !TryParseEnum( json["Security"].ToString(), out security ) )
+                if ( !TryParseEnum( json["Server"]["Security"]?.ToString(), out security ) )
                 {
                     throw new ArgumentException( $"Invalid Security '{json["Security"]}'. Expected 'SECURE, INSECURE or LAN'." );
                 }
                 
-                if ( !TryParseEnum( json["CameraMode"].ToString(), out camera ) || camera == ECameraMode.ANY )
+                if ( !TryParseEnum( json["Server"]["CameraMode"]?.ToString(), out camera ) || camera == ECameraMode.ANY )
                 {
                     throw new ArgumentException( $"Invalid CameraMode '{json["CameraMode"]}'. Expected 'FIRST, THIRD or BOTH'." );
                 }
                 
                 
-                if ( !int.TryParse( json["MaxPlayers"].ToString(), out maxPlayers ) || (maxPlayers < byte.MinValue || maxPlayers > byte.MaxValue) )
+                if ( !int.TryParse( json["Server"]["MaxPlayers"]?.ToString(), out maxPlayers ) || (maxPlayers < byte.MinValue || maxPlayers > byte.MaxValue) )
                 {
                     throw new ArgumentException( $"Invalid MaxPlayers '{json["MaxPlayers"]}'. Expected a number between 0 and 255.");
                 }
                 
-                if ( !int.TryParse( json["Port"].ToString(), out port ) || (port < ushort.MinValue || maxPlayers > ushort.MaxValue) )
+                if ( !int.TryParse( json["Server"]["Port"]?.ToString(), out port ) || (port < ushort.MinValue || maxPlayers > ushort.MaxValue) )
                 {
                     throw new ArgumentException( $"Invalid Port '{json["Port"]}'. Expected a number between 0 and 65535.");
                 }
@@ -155,8 +156,8 @@ namespace ZomboMod
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine( $"Invalid configuration '{FileName}'.");
-                Console.Error.WriteLine( ex );
+                Console.WriteLine( $"Invalid configuration '{FileName}'.");
+                Console.WriteLine( ex );
                 LoadDefault();
             }
         }

@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace ZomboMod.Plugin
@@ -20,10 +21,10 @@ namespace ZomboMod.Plugin
         public PluginLoader             Loader      { get; }
         public IEnumerable<PluginBase>  Plugins     => _plugins.Values;
 
-        public PluginManager( PluginLoader loader )
+        internal PluginManager()
         {
             _plugins = new Dictionary<string, PluginBase>();
-            Loader = loader;
+            Loader = new PluginLoader();
         }
 
         public PluginBase GetPlugin( string name )
@@ -49,6 +50,27 @@ namespace ZomboMod.Plugin
         public T GetPlugin<T>() where T : PluginBase
         {
             return (T) GetPlugin( typeof (T) );
+        }
+
+        internal void Init()
+        {
+            foreach ( var file in Directory.GetFiles( Zombo.PluginsFolder, "*.dll", SearchOption.TopDirectoryOnly ) )
+            {
+                Console.WriteLine( $"Loading plugin '{Path.GetFileNameWithoutExtension( file )}'" );
+
+                try
+                {
+                    var plugin = Loader.LoadFrom( file );
+
+                    _plugins.Add( plugin.Info.Name, plugin );
+
+                    LoadPlugin( plugin );
+                }
+                catch ( Exception ex )
+                {
+                    Console.WriteLine( ex );
+                }
+            }
         }
 
         private Dictionary<string, PluginBase> _plugins;

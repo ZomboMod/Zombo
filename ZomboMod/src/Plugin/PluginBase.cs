@@ -15,6 +15,11 @@ namespace ZomboMod.Plugin
     {
         public PluginInfo Info { get; private set; }
 
+        private PluginBase( PluginInfo info )
+        {
+            Info = info;
+        }
+
         public void OnLoad() {}
 
         public void OnUnload() {}

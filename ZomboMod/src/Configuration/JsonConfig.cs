@@ -30,8 +30,8 @@ namespace ZomboMod.Configuration
                 }
                 catch (JsonReaderException ex)
                 {
-                    Console.Error.WriteLine( $"Invalid configuration '{FileName}'.");
-                    Console.Error.WriteLine( ex );
+                    Console.WriteLine( $"Invalid configuration '{FileName}'.");
+                    Console.WriteLine( ex );
                 }
             }
             else

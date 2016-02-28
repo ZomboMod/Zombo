@@ -20,7 +20,7 @@ using Player = ZomboMod.Entity.Player;
 
 namespace ZomboMod
 {
-    public class UServer
+    public class Server
     {
         public byte MaxPlayers
         {
@@ -93,7 +93,7 @@ namespace ZomboMod
         }
 
 
-        internal UServer( ushort port, string map )
+        internal Server( ushort port, string map )
         {
             ConnectedPlayers = new List<Player>();
 

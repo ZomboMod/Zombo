@@ -9,10 +9,27 @@
  *   
  */
 
+using UnityEngine;
+
 namespace ZomboMod.Entity
 {
-    public class Zombie
+    public class Zombie : IEntity, ILivingEntity
     {
-         
+        public uint Health { get; set; }
+
+        public Vector3 Position { get; set; }
+
+        public float Rotation { get; set; }
+
+        public bool IsUnderWater { get; }
+
+        public bool IsOnGround { get; }
+
+        public bool IsDead { get; }
+
+        public void Kill()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

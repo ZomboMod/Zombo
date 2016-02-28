@@ -2,7 +2,7 @@
 {
     public interface ILivingEntity
     {
-        bool IsDead { get; set; }
+        bool IsDead { get; }
 
         void Kill();
     }

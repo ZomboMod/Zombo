@@ -13,6 +13,11 @@ using UnityEngine;
 
 namespace ZomboMod.Entity
 {
+    /*
+        TODO:
+            teleport(Vec3) ?
+
+    */
     public interface IEntity
     {
         uint Health { get; set; }

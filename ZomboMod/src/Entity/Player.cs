@@ -31,9 +31,9 @@ namespace ZomboMod.Entity
 
         public uint Experience { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; }
 
-        public SteamChannel Channel { get; set; }
+        public SteamChannel Channel { get; }
 
         public Item Hat { get; set; }
 
@@ -55,11 +55,11 @@ namespace ZomboMod.Entity
 
         public SteamProfile SteamProfile { get; set; }
 
-        public float Ping { get; set; }
+        public float Ping { get; }
 
-        public bool IsInVehicle { get; set; }
+        public bool IsInVehicle { get; }
 
-        public bool IsDead { get; set; }
+        public bool IsDead { get; }
 
         public bool IsBleeding { get; set; }
 
@@ -67,17 +67,13 @@ namespace ZomboMod.Entity
 
         public bool IsFreezing { get; set; }
 
-        public bool IsPro { get; set; }
+        public bool IsPro { get; }
 
         public bool IsUnderWater { get; }
 
         public bool IsOnGround { get; }
 
         public float Rotation { get; set; }
-
-        public float Yaw { get; set; }
-
-        public float Pitch { get; set; }
 
         public Vector3 Position { get; set; }
 
@@ -88,7 +84,7 @@ namespace ZomboMod.Entity
             SteamProfile = new SteamProfile( sdgPlayer );
             Channel = sdgPlayer.channel;
 
-            
+       //     Name = 
         }
 
         public void Kick( string reason = "Undefined" )

@@ -23,13 +23,13 @@ namespace ZomboMod.Entity
 
         public float Rotation { get; set; }
 
-        public bool IsUnderWater { get; set; }
+        public bool IsUnderWater { get; }
 
-        public bool IsOnGround { get; set; }
+        public bool IsOnGround { get; }
 
-        public List<Player> Passagers { get; set; }
+        public IEnumerable<Player> Passagers { get; }
 
-        public int Seats { get; set; }
+        public int Seats { get; }
 
         public void Explode()
         {

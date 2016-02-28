@@ -18,9 +18,11 @@ namespace ZomboMod.Steam
 {
     public class SteamProfile
     {
-        public CSteamID SteamID { get; set; }
+        public CSteamID SteamID { get; }
 
-        public CSteamID GroupID { get; set; }
+        public CSteamID GroupID { get; }
+
+        public string Name { get; }
 
         public SteamProfile( SDGPlayer player )
         {

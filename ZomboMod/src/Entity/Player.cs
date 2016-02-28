@@ -21,19 +21,43 @@ namespace ZomboMod.Entity
 {
     public class Player : IEntity, ILivingEntity
     {
-        public uint Health { get; set; }
+        public SteamProfile SteamProfile { get; }
 
-        public uint Hunger { get; set; }
-
-        public uint Thirst { get; set; }
-
-        public uint Stamina { get; set; }
-
-        public uint Experience { get; set; }
+        public SteamChannel Channel { get; }
 
         public string Name { get; }
 
-        public SteamChannel Channel { get; }
+        public bool IsPro { get; }
+
+        public uint Health
+        {
+            get { return SDGPlayer.life.health; }
+            set { throw new NotImplementedException(); }
+        }
+
+        public uint Hunger
+        {
+            get { return SDGPlayer.life.food; }
+            set { throw new NotImplementedException(); }
+        }
+
+        public uint Thirst
+        {
+            get { return SDGPlayer.life.water; }
+            set { throw new NotImplementedException(); }
+        }
+
+        public uint Stamina
+        {
+            get { return SDGPlayer.life.stamina; }
+            set { throw new NotImplementedException(); }
+        }
+
+        public uint Experience
+        {
+            get { return SDGPlayer.skills.experience; }
+            set { throw new NotImplementedException(); }
+        }
 
         public Item Hat { get; set; }
 
@@ -47,17 +71,31 @@ namespace ZomboMod.Entity
 
         public Item ItemInHand { get; set; }
 
-        private bool IsAdmin { get; set; }
+        private bool IsAdmin
+        {
+            get { return SteamPlayer.isAdmin; }
+            set { SteamPlayer.isAdmin = value; }
+        }
 
-        public PlayerInventory Inventory { get; set; }
+        public PlayerInventory Inventory
+        {
+            get { return SDGPlayer.inventory; }
+        }
 
-        public InteractableVehicle CurrentVehicle { get; set; }
+        public InteractableVehicle CurrentVehicle
+        {
+            get { return SDGPlayer.movement.getVehicle(); }
+        }
 
-        public SteamProfile SteamProfile { get; set; }
+        public float Ping
+        {
+            get { return Channel.owner.ping * 1000; } 
+        }
 
-        public float Ping { get; }
-
-        public bool IsInVehicle { get; }
+        public bool IsInVehicle
+        {
+            get { return CurrentVehicle != null; }
+        }
 
         public bool IsDead { get; }
 
@@ -67,7 +105,7 @@ namespace ZomboMod.Entity
 
         public bool IsFreezing { get; set; }
 
-        public bool IsPro { get; }
+
 
         public bool IsUnderWater { get; }
 
@@ -82,9 +120,12 @@ namespace ZomboMod.Entity
             SDGPlayer = sdgPlayer;
 
             SteamProfile = new SteamProfile( sdgPlayer );
-            Channel = sdgPlayer.channel;
 
-       //     Name = 
+            Channel = sdgPlayer.channel;
+            SteamPlayer = Channel.owner;
+            IsPro = SteamPlayer.isPro;
+
+            Name = SteamPlayer.playerID.characterName;
         }
 
         public void Kick( string reason = "Undefined" )
@@ -128,5 +169,6 @@ namespace ZomboMod.Entity
         }
 
         internal SDGPlayer SDGPlayer;
+        internal SteamPlayer SteamPlayer;
     }
 }

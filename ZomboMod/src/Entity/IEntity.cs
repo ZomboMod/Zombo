@@ -13,11 +13,6 @@ using UnityEngine;
 
 namespace ZomboMod.Entity
 {
-    /*
-        TODO:
-            teleport(Vec3) ?
-
-    */
     public interface IEntity
     {
         uint Health { get; set; }
@@ -29,5 +24,9 @@ namespace ZomboMod.Entity
         bool IsUnderWater { get; }
 
         bool IsOnGround { get; }
+
+        void Teleport( Vector3 position, float rotation );
+
+        void Teleport( Vector3 position );
     }
 }

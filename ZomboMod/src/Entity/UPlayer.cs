@@ -153,21 +153,26 @@ namespace ZomboMod.Entity
             get { throw new NotImplementedException(); }
         }
 
-        public float Rotation { get; set; }
-
-        public Vector3 Position { get; set; }
-
-        internal UPlayer( SDGPlayer sdgPlayer )
+        public float Rotation
         {
-            SDGPlayer = sdgPlayer;
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
 
-            SteamProfile = new SteamProfile( sdgPlayer );
+        public Vector3 Position
+        {
+            get { return SDGPlayer.transform.position; }
+            set { SDGPlayer.transform.position = value; }
+        }
 
-            Channel = sdgPlayer.channel;
-            SteamPlayer = Channel.owner;
-            IsPro = SteamPlayer.isPro;
+        public void Teleport( Vector3 position, float rotation )
+        {
+            throw new NotImplementedException();
+        }
 
-            Name = SteamPlayer.playerID.characterName;
+        public void Teleport( Vector3 position )
+        {
+            throw new NotImplementedException();
         }
 
         public void Kick( string reason = "Undefined" )
@@ -208,6 +213,19 @@ namespace ZomboMod.Entity
         public void Kill()
         {
             throw new NotImplementedException();
+        }
+
+        internal UPlayer( SDGPlayer sdgPlayer )
+        {
+            SDGPlayer = sdgPlayer;
+
+            SteamProfile = new SteamProfile( sdgPlayer );
+
+            Channel = sdgPlayer.channel;
+            SteamPlayer = Channel.owner;
+            IsPro = SteamPlayer.isPro;
+
+            Name = SteamPlayer.playerID.characterName;
         }
 
         internal SDGPlayer SDGPlayer;

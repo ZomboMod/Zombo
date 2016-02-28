@@ -27,6 +27,16 @@ namespace ZomboMod.Entity
 
         public bool IsDead { get; }
 
+        public void Teleport( Vector3 position, float rotation )
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Teleport( Vector3 position )
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Kill()
         {
             throw new System.NotImplementedException();

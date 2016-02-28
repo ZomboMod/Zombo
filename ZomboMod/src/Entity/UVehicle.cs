@@ -31,6 +31,16 @@ namespace ZomboMod.Entity
 
         public int Seats { get; }
 
+        public void Teleport( Vector3 position, float rotation )
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Teleport( Vector3 position )
+        {
+            throw new NotImplementedException();
+        }
+
         public void Explode()
         {
             throw new NotImplementedException();

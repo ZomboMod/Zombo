@@ -12,6 +12,8 @@
 
 using Steamworks;
 
+using SDGPlayer = SDG.Unturned.Player;
+
 namespace ZomboMod.Steam
 {
     public class SteamProfile
@@ -19,5 +21,11 @@ namespace ZomboMod.Steam
         public CSteamID SteamID { get; set; }
 
         public CSteamID GroupID { get; set; }
+
+        public SteamProfile( SDGPlayer player )
+        {
+            SteamID = player.channel.owner.playerID.steamID;
+            GroupID = player.channel.owner.playerID.group;
+        }
     }
 }

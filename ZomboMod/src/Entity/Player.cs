@@ -11,26 +11,33 @@
 
 using System;
 using SDG.Unturned;
+using Steamworks;
 using UnityEngine;
 using ZomboMod.Steam;
+
+using SDGPlayer = SDG.Unturned.Player;
 
 namespace ZomboMod.Entity
 {
     public class Player : IEntity, ILivingEntity
     {
-        public int Hunger { get; set; }
+        public uint Health { get; set; }
 
-        public int Thirst { get; set; }
+        public uint Hunger { get; set; }
 
-        public int Stamina { get; set; }
+        public uint Thirst { get; set; }
 
-        public int Experience { get; set; }
+        public uint Stamina { get; set; }
 
-        public int Name { get; set; }
+        public uint Experience { get; set; }
+
+        public string Name { get; set; }
 
         public SteamChannel Channel { get; set; }
 
         public Item Hat { get; set; }
+
+        public Item Glasses { get; set; }
 
         public Item Shirt { get; set; }
 
@@ -44,13 +51,13 @@ namespace ZomboMod.Entity
 
         public PlayerInventory Inventory { get; set; }
 
-        public float Ping { get; set; }
-
         public InteractableVehicle CurrentVehicle { get; set; }
 
-        public bool IsInVehicle { get; set; }
-
         public SteamProfile SteamProfile { get; set; }
+
+        public float Ping { get; set; }
+
+        public bool IsInVehicle { get; set; }
 
         public bool IsDead { get; set; }
 
@@ -62,20 +69,27 @@ namespace ZomboMod.Entity
 
         public bool IsPro { get; set; }
 
-        public uint Health { get; set; }
+        public bool IsUnderWater { get; }
 
-        public Vector3 Position { get; set; }
+        public bool IsOnGround { get; }
 
         public float Rotation { get; set; }
-
-        public bool IsUnderWater { get; set; }
-
-        public bool IsOnGround { get; set; }
 
         public float Yaw { get; set; }
 
         public float Pitch { get; set; }
 
+        public Vector3 Position { get; set; }
+
+        internal Player( SDGPlayer sdgPlayer )
+        {
+            SDGPlayer = sdgPlayer;
+
+            SteamProfile = new SteamProfile( sdgPlayer );
+            Channel = sdgPlayer.channel;
+
+            
+        }
 
         public void Kick( string reason = "Undefined" )
         {
@@ -116,5 +130,7 @@ namespace ZomboMod.Entity
         {
             throw new NotImplementedException();
         }
+
+        internal SDGPlayer SDGPlayer;
     }
 }

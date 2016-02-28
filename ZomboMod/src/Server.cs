@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using SDG.Unturned;
 using Steamworks;
@@ -111,35 +112,36 @@ namespace ZomboMod
 
         public Player GetPlayer( CSteamID id )
         {
-            throw new NotImplementedException();  
+            return ConnectedPlayers.First( p => p.SteamProfile.SteamID == id );
         }
 
         public Player GetPlayer( string name )
         {
-            throw new NotImplementedException();  
+            return ConnectedPlayers.First( p => {
+                return CultureInfo.InvariantCulture.CompareInfo.IndexOf( name, 
+                                            p.Name, CompareOptions.IgnoreCase ) >= 0;
+            } ); 
         }
 
         public Player GetPlayer( SteamPlayer steamPlayer )
         {
-            throw new NotImplementedException();
+            return ConnectedPlayers.First( p => p.Channel.owner == steamPlayer );
         }
 
         public Player GetPlayer( SDG.Unturned.Player sdgPlayer )
         {
-            throw new NotImplementedException();
+            return ConnectedPlayers.First( p => p.SDGPlayer == sdgPlayer );
         }
 
-
-        private static void PlayerDisconnectedCallback( CSteamID player )
+        private void PlayerDisconnectedCallback( CSteamID id )
         {
-            Console.WriteLine( "disconnected>>" + player );
+            ConnectedPlayers.Add( new Player( PlayerTool.getPlayer(id) ) );
         }
 
-        private static void PlayerConnectedCallback( CSteamID player )
+        private void PlayerConnectedCallback( CSteamID id )
         {
-            Console.WriteLine( "connected>>" + player );
+            ConnectedPlayers.RemoveAll( p => p.SteamProfile.SteamID == id );
         }
-
 
         internal List<Player> ConnectedPlayers;
     }

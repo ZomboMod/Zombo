@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace ZomboMod.Entity
 {
-    public class Zombie : IEntity, ILivingEntity
+    public class UZombie : IEntity, ILivingEntity
     {
         public uint Health { get; set; }
 

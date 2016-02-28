@@ -13,7 +13,9 @@ using System;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using SDG.Unturned;
+using Steamworks;
 using ZomboMod.Configuration;
+using ZomboMod.Entity;
 using ZomboMod.Plugin;
 
 namespace ZomboMod
@@ -23,12 +25,12 @@ namespace ZomboMod
         /// <summary>
         /// Singleton instance of Unturned Server.
         /// </summary>
-        public static Server Server { get; private set; }
+        public static UServer Server { get; private set; }
 
         /// <summary>
         /// Singleton instance of Unturned world.
         /// </summary>
-        public static World  World { get; private set; }
+        public static UWorld  World { get; private set; }
 
         /// <summary>
         /// Singleton instance of Zombo plugin manager.
@@ -93,8 +95,8 @@ namespace ZomboMod
                 Settings.Save( settingsFile );
             }
 
-            Server  = new Server( Settings.Server.Port, Settings.Server.Map );
-            World   = new World();
+            Server  = new UServer( Settings.Server.Port, Settings.Server.Map );
+            World   = new UWorld();
 
             Server.IsPvp = Settings.Server.EnablePvp;
             Server.GameMode = Settings.Server.GameMode;

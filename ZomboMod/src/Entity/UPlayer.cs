@@ -11,7 +11,6 @@
 
 using System;
 using SDG.Unturned;
-using Steamworks;
 using UnityEngine;
 using ZomboMod.Steam;
 
@@ -19,7 +18,7 @@ using SDGPlayer = SDG.Unturned.Player;
 
 namespace ZomboMod.Entity
 {
-    public class Player : IEntity, ILivingEntity
+    public class UPlayer : IEntity, ILivingEntity
     {
         public SteamProfile SteamProfile { get; }
 
@@ -59,17 +58,41 @@ namespace ZomboMod.Entity
             set { throw new NotImplementedException(); }
         }
 
-        public Item Hat { get; set; }
+        public Item Hat
+        {
+            get;
+            set;
+        }
 
-        public Item Glasses { get; set; }
+        public Item Glasses
+        {
+            get;
+            set;
+        }
 
-        public Item Shirt { get; set; }
+        public Item Shirt
+        {
+            get;
+            set;
+        }
 
-        public Item Pants { get; set; }
+        public Item Pants
+        {
+            get;
+            set;
+        }
 
-        public Item Backpack { get; set; }
+        public Item Backpack
+        {
+            get;
+            set;
+        }
 
-        public Item ItemInHand { get; set; }
+        public Item ItemInHand
+        {
+            get;
+            set;
+        }
 
         private bool IsAdmin
         {
@@ -97,25 +120,44 @@ namespace ZomboMod.Entity
             get { return CurrentVehicle != null; }
         }
 
-        public bool IsDead { get; }
+        public bool IsDead
+        {
+            get { return SDGPlayer.life.isDead;  }
+        }
 
-        public bool IsBleeding { get; set; }
+        public bool IsBleeding
+        {
+            get { return SDGPlayer.life.isBleeding; }
+            set { throw new NotImplementedException(); }
+        }
 
-        public bool IsLegBroken { get; set; }
+        public bool IsLegBroken
+        {
+            get { return SDGPlayer.life.isBroken; }
+            set { throw new NotImplementedException(); }
+        }
 
-        public bool IsFreezing { get; set; }
+        public bool IsFreezing
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
 
+        public bool IsUnderWater
+        {
+            get { throw new NotImplementedException(); }
+        }
 
-
-        public bool IsUnderWater { get; }
-
-        public bool IsOnGround { get; }
+        public bool IsOnGround
+        {
+            get { throw new NotImplementedException(); }
+        }
 
         public float Rotation { get; set; }
 
         public Vector3 Position { get; set; }
 
-        internal Player( SDGPlayer sdgPlayer )
+        internal UPlayer( SDGPlayer sdgPlayer )
         {
             SDGPlayer = sdgPlayer;
 
@@ -143,7 +185,7 @@ namespace ZomboMod.Entity
             throw new NotImplementedException();
         }
 
-        public Skill GetSkill( Skill.Type Type )
+        public USkill GetSkill( USkill.Type Type )
         {
             throw new NotImplementedException();
         }

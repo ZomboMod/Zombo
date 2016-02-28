@@ -16,12 +16,11 @@ using System.Globalization;
 using System.Linq;
 using SDG.Unturned;
 using Steamworks;
-
-using Player = ZomboMod.Entity.Player;
+using ZomboMod.Entity;
 
 namespace ZomboMod
 {
-    public class Server
+    public class UServer
     {
         public byte MaxPlayers
         {
@@ -88,15 +87,15 @@ namespace ZomboMod
             set { Provider.timeout = value; }
         }
 
-        public IEnumerable<Player> OnlinePlayers
+        public IEnumerable<UPlayer> OnlinePlayers
         {
             get { return ConnectedPlayers.AsEnumerable(); } 
         }
 
 
-        internal Server( ushort port, string map )
+        internal UServer( ushort port, string map )
         {
-            ConnectedPlayers = new List<Player>();
+            ConnectedPlayers = new List<UPlayer>();
 
             Port = port;
             Map = map;
@@ -110,12 +109,12 @@ namespace ZomboMod
             throw new NotImplementedException();
         }
 
-        public Player GetPlayer( CSteamID id )
+        public UPlayer GetPlayer( CSteamID id )
         {
-            return ConnectedPlayers.First( p => p.SteamProfile.SteamID == id );
+            return ConnectedPlayers.FirstOrDefault(p => p.SteamProfile.SteamID == id);
         }
 
-        public Player GetPlayer( string name )
+        public UPlayer GetPlayer( string name )
         {
             return ConnectedPlayers.First( p => {
                 return CultureInfo.InvariantCulture.CompareInfo.IndexOf( name, 
@@ -123,26 +122,26 @@ namespace ZomboMod
             } ); 
         }
 
-        public Player GetPlayer( SteamPlayer steamPlayer )
+        public UPlayer GetPlayer( SteamPlayer steamPlayer )
         {
             return ConnectedPlayers.First( p => p.Channel.owner == steamPlayer );
         }
 
-        public Player GetPlayer( SDG.Unturned.Player sdgPlayer )
+        public UPlayer GetPlayer( SDG.Unturned.Player sdgPlayer )
         {
             return ConnectedPlayers.First( p => p.SDGPlayer == sdgPlayer );
         }
 
         private void PlayerDisconnectedCallback( CSteamID id )
         {
-            ConnectedPlayers.Add( new Player( PlayerTool.getPlayer(id) ) );
+            ConnectedPlayers.RemoveAll( p => p.SteamProfile.SteamID == id );
         }
 
         private void PlayerConnectedCallback( CSteamID id )
         {
-            ConnectedPlayers.RemoveAll( p => p.SteamProfile.SteamID == id );
+            ConnectedPlayers.Add( new UPlayer( PlayerTool.getPlayer(id) ) );
         }
 
-        internal List<Player> ConnectedPlayers;
+        internal List<UPlayer> ConnectedPlayers;
     }
 }

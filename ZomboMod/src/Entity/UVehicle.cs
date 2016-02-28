@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace ZomboMod.Entity
 {
-    public class Vehicle : IEntity
+    public class UVehicle : IEntity
     {
         public uint Health { get; set; }
 
@@ -27,7 +27,7 @@ namespace ZomboMod.Entity
 
         public bool IsOnGround { get; }
 
-        public IEnumerable<Player> Passagers { get; }
+        public IEnumerable<UPlayer> Passagers { get; }
 
         public int Seats { get; }
 

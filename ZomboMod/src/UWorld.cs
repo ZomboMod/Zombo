@@ -15,10 +15,10 @@ using ZomboMod.Entity;
 
 namespace ZomboMod
 {
-    public class World
+    public class UWorld
     {
-        public IEnumerable<Vehicle> Vehicles { get; }
+        public IEnumerable<UVehicle> Vehicles { get; }
 
-        public IEnumerable<Zombie> Zombies { get; }
+        public IEnumerable<UZombie> Zombies { get; }
     }
 }

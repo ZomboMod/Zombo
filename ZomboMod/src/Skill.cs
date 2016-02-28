@@ -12,7 +12,7 @@
 
 namespace ZomboMod
 {
-    public class USkill
+    public class Skill
     {
         public byte Level { get; set; }
 
@@ -20,7 +20,7 @@ namespace ZomboMod
 
         public uint Cost { get; set; }
 
-        internal USkill( byte level, byte maxLevel, uint cost )
+        internal Skill( byte level, byte maxLevel, uint cost )
         {
             Level = level;
             MaxLevel = maxLevel;

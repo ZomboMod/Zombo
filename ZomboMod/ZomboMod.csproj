@@ -66,19 +66,19 @@
     <Compile Include="src\Configuration\JsonConfig.cs" />
     <Compile Include="src\Entity\IEntity.cs" />
     <Compile Include="src\Entity\ILivingEntity.cs" />
-    <Compile Include="src\Entity\UAnimal.cs" />
-    <Compile Include="src\Entity\UPlayer.cs" />
-    <Compile Include="src\Entity\UVehicle.cs" />
-    <Compile Include="src\Entity\UZombie.cs" />
+    <Compile Include="src\Entity\Animal.cs" />
+    <Compile Include="src\Entity\Player.cs" />
+    <Compile Include="src\Entity\Vehicle.cs" />
+    <Compile Include="src\Entity\Zombie.cs" />
     <Compile Include="src\Plugin\PluginBase.cs" />
     <Compile Include="src\Plugin\PluginInfo.cs" />
     <Compile Include="src\Plugin\PluginLoader.cs" />
     <Compile Include="src\Plugin\PluginLoadFlags.cs" />
     <Compile Include="src\Plugin\PluginManager.cs" />
-    <Compile Include="src\USkill.cs" />
+    <Compile Include="src\Skill.cs" />
     <Compile Include="src\Steam\SteamProfile.cs" />
-    <Compile Include="src\UServer.cs" />
-    <Compile Include="src\UWorld.cs" />
+    <Compile Include="src\Server.cs" />
+    <Compile Include="src\World.cs" />
     <Compile Include="src\Zombo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

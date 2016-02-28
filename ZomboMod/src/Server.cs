@@ -12,9 +12,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using SDG.Unturned;
 using Steamworks;
-using ZomboMod.Entity;
+
+using Player = ZomboMod.Entity.Player;
 
 namespace ZomboMod
 {
@@ -85,18 +87,21 @@ namespace ZomboMod
             set { Provider.timeout = value; }
         }
 
-        public IEnumerable<UPlayer> OnlinePlayers
+        public IEnumerable<Player> OnlinePlayers
         {
-            get;
-            set;
+            get { return ConnectedPlayers.AsEnumerable(); } 
         }
+
 
         internal UServer( ushort port, string map )
         {
-            ConnectedPlayers = new List<UPlayer>();
+            ConnectedPlayers = new List<Player>();
 
             Port = port;
             Map = map;
+
+            Provider.onServerConnected += PlayerConnectedCallback;
+            Provider.onServerDisconnected += PlayerDisconnectedCallback;
         }
 
         public void Broadcast( params string[] messages )
@@ -104,16 +109,38 @@ namespace ZomboMod
             throw new NotImplementedException();
         }
 
-        public void GetPlayer( CSteamID id )
+        public Player GetPlayer( CSteamID id )
         {
             throw new NotImplementedException();  
         }
 
-        public void GetPlayer( string name )
+        public Player GetPlayer( string name )
         {
             throw new NotImplementedException();  
         }
 
-        internal List<UPlayer> ConnectedPlayers;
+        public Player GetPlayer( SteamPlayer steamPlayer )
+        {
+            throw new NotImplementedException();
+        }
+
+        public Player GetPlayer( SDG.Unturned.Player sdgPlayer )
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private static void PlayerDisconnectedCallback( CSteamID player )
+        {
+            Console.WriteLine( "disconnected>>" + player );
+        }
+
+        private static void PlayerConnectedCallback( CSteamID player )
+        {
+            Console.WriteLine( "connected>>" + player );
+        }
+
+
+        internal List<Player> ConnectedPlayers;
     }
 }

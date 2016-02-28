@@ -16,7 +16,7 @@ using ZomboMod.Steam;
 
 namespace ZomboMod.Entity
 {
-    public class UPlayer : IEntity, ILivingEntity
+    public class Player : IEntity, ILivingEntity
     {
         public int Hunger { get; set; }
 
@@ -92,7 +92,7 @@ namespace ZomboMod.Entity
             throw new NotImplementedException();
         }
 
-        public USkill GetSkill( USkill.Type Type )
+        public Skill GetSkill( Skill.Type Type )
         {
             throw new NotImplementedException();
         }

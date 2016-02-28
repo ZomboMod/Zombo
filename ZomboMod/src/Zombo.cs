@@ -28,7 +28,7 @@ namespace ZomboMod
         /// <summary>
         /// Singleton instance of Unturned world.
         /// </summary>
-        public static UWorld  World { get; private set; }
+        public static World  World { get; private set; }
 
         /// <summary>
         /// Singleton instance of Zombo plugin manager.
@@ -60,6 +60,7 @@ namespace ZomboMod
         /// </summary>
         private static void Init()
         {
+            Console.WriteLine(SDG.Unturned.Provider.isServer);
             if ( Server != null )
             {
                 throw new InvalidOperationException( "Zombo already initalized!" );
@@ -94,7 +95,7 @@ namespace ZomboMod
             }
 
             Server  = new UServer( Settings.Server.Port, Settings.Server.Map );
-            World   = new UWorld();
+            World   = new World();
 
             Server.IsPvp = Settings.Server.EnablePvp;
             Server.GameMode = Settings.Server.GameMode;

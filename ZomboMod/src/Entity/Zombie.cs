@@ -9,16 +9,10 @@
  *   
  */
 
-
-using System.Collections.Generic;
-using ZomboMod.Entity;
-
-namespace ZomboMod
+namespace ZomboMod.Entity
 {
-    public class UWorld
+    public class Zombie
     {
-        public IEnumerable<UVehicle> Vehicles { get; }
-
-        public IEnumerable<UZombie> Zombies { get; }
+         
     }
 }

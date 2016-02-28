@@ -9,13 +9,11 @@
  *   
  */
 
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZomboMod.Entity
 {
-    public class UVehicle : IEntity
+    public class Animal : IEntity, ILivingEntity
     {
         public uint Health { get; set; }
 
@@ -24,16 +22,14 @@ namespace ZomboMod.Entity
         public float Rotation { get; set; }
 
         public bool IsUnderWater { get; set; }
-
+        
         public bool IsOnGround { get; set; }
 
-        public List<UPlayer> Passagers { get; set; }
+        public bool IsDead { get; set; }
 
-        public int Seats { get; set; }
-
-        public void Explode()
+        public void Kill()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
     }
 }

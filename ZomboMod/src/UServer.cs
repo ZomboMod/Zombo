@@ -92,7 +92,6 @@ namespace ZomboMod
             get { return ConnectedPlayers.AsEnumerable(); } 
         }
 
-
         internal UServer( ushort port, string map )
         {
             ConnectedPlayers = new List<UPlayer>();
@@ -116,7 +115,7 @@ namespace ZomboMod
 
         public UPlayer GetPlayer( string name )
         {
-            return ConnectedPlayers.First( p => {
+            return ConnectedPlayers.FirstOrDefault( p => {
                 return CultureInfo.InvariantCulture.CompareInfo.IndexOf( name, 
                                             p.Name, CompareOptions.IgnoreCase ) >= 0;
             } ); 
@@ -124,12 +123,12 @@ namespace ZomboMod
 
         public UPlayer GetPlayer( SteamPlayer steamPlayer )
         {
-            return ConnectedPlayers.First( p => p.Channel.owner == steamPlayer );
+            return ConnectedPlayers.FirstOrDefault( p => p.Channel.owner == steamPlayer );
         }
 
-        public UPlayer GetPlayer( SDG.Unturned.Player sdgPlayer )
+        public UPlayer GetPlayer( Player sdgPlayer )
         {
-            return ConnectedPlayers.First( p => p.SDGPlayer == sdgPlayer );
+            return ConnectedPlayers.FirstOrDefault( p => p.SDGPlayer == sdgPlayer );
         }
 
         private void PlayerDisconnectedCallback( CSteamID id )

@@ -167,14 +167,9 @@ namespace ZomboMod.Entity
             set { SDGPlayer.transform.position = value; }
         }
 
-        public HashSet<string> Permissions
+        public IEnumerable<string> Permissions
         {
-            get { return Zombo.PermissionProvider.GetPlayer( this ).Permissions; }
-        }
-
-        public HashSet<PermissionGroup> Groups
-        {
-            get { return Zombo.PermissionProvider.GetPlayer( this ).Groups; }
+            get { return Zombo.PermissionProvider.GetPermssions( this ); }
         }
 
         public void Teleport( Vector3 position, float rotation )

@@ -10,6 +10,36 @@ using ZomboMod.Common;
 namespace ZomboMod.Permission.Internal
 {
     /*
+
+        Tem que carregar os jogadores caso eles não estejam explicitos no arquivo
+
+        Definir PermissionGroup.Players para list de PermissionPlayer
+
+        Fazer igual no resolveParents
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         TODO: abstraction
 
         PermissionStorage
@@ -19,7 +49,6 @@ namespace ZomboMod.Permission.Internal
     */
     internal class PermissionStorage
     {
-        internal Dictionary<ulong, PermissionPlayer> Players;
         internal Dictionary<string, PermissionGroup> Groups;
 
         private readonly string _permissionsFilePath;
@@ -43,26 +72,17 @@ namespace ZomboMod.Permission.Internal
                     Parents = new List<string> { "default" }
                 };
 
-                var me = new {
-                    Permissions = new List<string>(),
-                    Groups = new List<string> { "vip" }  
-                };
-
                 var all = new {
                     Groups = new Dictionary<string, object> {
                         { "default", defaultGroup },
                         { "vip", vipGroup}
                     },
-                    Players = new Dictionary<string, object> {
-                        { "76561198144490276", me }
-                    }
                 };
 
                 File.WriteAllText( _permissionsFilePath,
                                    JsonConvert.SerializeObject( all, Formatting.Indented ) );
             }
 
-            Players = new Dictionary<ulong, PermissionPlayer>();
             Groups = new Dictionary<string, PermissionGroup>();
         }
 
@@ -75,11 +95,6 @@ namespace ZomboMod.Permission.Internal
                     } ),
                     g.Value.Players,
                     Parents = g.Value.Parents.Select( gp => gp.Name )
-                } ),
-                Players = Players.ToDictionary( p => p.Key, p => new {
-                    Permissions = p.Value.Permissions.Where( perm => { // Leave only custom player permissions.
-                        return !p.Value.Groups.SelectMany( g => g.Permissions ).Contains( perm );
-                    })
                 } )
             };
 
@@ -101,11 +116,6 @@ namespace ZomboMod.Permission.Internal
                 if ( groupsArray == null )
                 {
                     throw new JsonReaderException("Invalid permissions: Missing 'Groups'.");
-                }
-
-                if ( playersArray == null )
-                {
-                    throw new JsonReaderException("Invalid permissions: Missing 'Players'.");
                 }
 
                 foreach ( var obj in groupsArray )
@@ -163,38 +173,6 @@ namespace ZomboMod.Permission.Internal
 
                     group.Parents = parents;
                     parents.SelectMany( p => p.Permissions ).ForEach( p => group.Permissions.Add(p) );
-                }
-
-                foreach ( var obj in playersArray )
-                {
-                    var jObj                = (JObject) obj.First;
-                    var rawPlayerId         = ((JProperty) obj).Name;
-                    var playerId            = 0UL;
-
-                    if ( rawPlayerId == null || !ulong.TryParse( rawPlayerId, out playerId ) )
-                    {
-                        throw new JsonReaderException( $"Invalid playerId {playerId}" );
-                    }
-
-                    var playerPermissions   = jObj.GetValue( "Permissions", igcase ) as JArray;
-
-                    var groups              = new HashSet<PermissionGroup>( Groups.Values.Where( g => g.Players.Contains( playerId ) ) );
-                    var permissions         = new HashSet<string>( groups.SelectMany( g => g.Permissions ) );
-
-                    playerPermissions?.ToObject<HashSet<string>>().ForEach( perm => permissions.Add(perm) );
-
-                    /*
-                        Remove parent groups.
-
-                        O(n²) D:
-                    */
-                    groups.RemoveWhere( g => {
-                        return groups.Any( p => p.IsParentOf(g) );
-                    } );
-
-                    Players.Add( playerId, new PermissionPlayer( playerId, permissions, groups ) );
-
-                    groups.ForEach( g => Console.WriteLine(g.Name) );
                 }
             }
             catch (Exception ex)

@@ -17,8 +17,8 @@ namespace ZomboMod.Permission
     */
     internal class PermissionStorage
     {
-        internal List<PermissionPlayer> Players;
-        internal List<PermissionGroup> Groups;
+        internal Dictionary<ulong, PermissionPlayer> Players;
+        internal Dictionary<string, PermissionGroup> Groups;
 
         private readonly string _permissionsFilePath;
 
@@ -60,21 +60,21 @@ namespace ZomboMod.Permission
                                    JsonConvert.SerializeObject( all, Formatting.Indented ) );
             }
 
-            Players = new List<PermissionPlayer>();
-            Groups = new List<PermissionGroup>();
+            Players = new Dictionary<ulong, PermissionPlayer>();
+            Groups = new Dictionary<string, PermissionGroup>();
         }
 
         internal void Save()
         {
             var all = new {
-                Groups = Groups.ToDictionary( g => g.Name, g => new {
-                    g.Permissions,
-                    g.Players,
-                    Parents = g.Parents.Select( gp => gp.Name )
+                Groups = Groups.ToDictionary( g => g.Key, g => new {
+                    g.Value.Permissions,
+                    g.Value.Players,
+                    Parents = g.Value.Parents.Select( gp => gp.Name )
                 } ),
-                Players = Players.ToDictionary( p => p.Id, p => new {
-                    p.Permissions,
-                    Groups = p.Groups.Select( g => g.Name )
+                Players = Players.ToDictionary( g => g.Key, p => new {
+                    p.Value.Permissions,
+                    Groups = p.Value.Groups.Select( g => g.Name )
                 } )
             };
 
@@ -129,7 +129,7 @@ namespace ZomboMod.Permission
                         parentsToResolve.Add( groupName, groupParents.ToObject<List<string>>() );
                     }
 
-                    Groups.Add( new PermissionGroup( groupName, permissions, players, null ) );
+                    Groups.Add( groupName, new PermissionGroup( groupName, permissions, players, null ) );
                 }
 
                 /*
@@ -139,23 +139,20 @@ namespace ZomboMod.Permission
                     that is stored in parentsToResolve that consists in { groupName, [ list, of, parents ] }
                 */
 
-                var mapGroup = Groups.ToDictionary( x => x.Name );
-
                 foreach ( var pair in parentsToResolve )
                 {
-                    var group = mapGroup[pair.Key];
+                    var group = Groups[pair.Key];
                     var parents = new List<PermissionGroup>();
                     
                     foreach ( var parentName in pair.Value )
                     {
-                        if ( !mapGroup.ContainsKey( parentName ) )
+                        if ( !Groups.ContainsKey( parentName ) )
                         {
                             //TODO Logger
                             Console.WriteLine( $"Invalid parent '{parentName}'(Not exist) in group '{group.Name}'." );
                             return;
                         }
-                        
-                        parents.Add( mapGroup[parentName] );
+                        parents.Add( Groups[parentName] );
                     }
 
                     group.Parents = parents;
@@ -185,17 +182,16 @@ namespace ZomboMod.Permission
 
                     playerGroups?.ToObject<List<string>>().ForEach( gName => 
                     {
-                        if ( !mapGroup.ContainsKey( gName ) )
+                        if ( !Groups.ContainsKey( gName ) )
                         {
                             //TODO Logger
                             Console.WriteLine( $"Invalid player group '{gName}'(Not exist) in player '{playerId}'." );
                             return;
                         }
-
-                        groups.Add( mapGroup[gName.ToLowerInvariant()] );
+                        groups.Add( Groups[gName.ToLowerInvariant()] );
                     } );
 
-                    Players.Add( new PermissionPlayer( playerId, permissions, groups ) );
+                    Players.Add( playerId, new PermissionPlayer( playerId, permissions, groups ) );
                 }
             }
             catch (Exception ex)

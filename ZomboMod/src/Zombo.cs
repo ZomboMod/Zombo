@@ -13,9 +13,8 @@ using System;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using SDG.Unturned;
-using Steamworks;
 using ZomboMod.Configuration;
-using ZomboMod.Entity;
+using ZomboMod.Permission;
 using ZomboMod.Plugin;
 
 namespace ZomboMod
@@ -56,6 +55,11 @@ namespace ZomboMod
         /// Settings
         /// </summary>
         public static ZomboSettngs Settings { get; private set; }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        public static IPermissionProvider PermissionProvider { get; private set; }
 
         /// <summary>
         /// Called dinamically by ZomboCore.
@@ -106,6 +110,10 @@ namespace ZomboMod
             Server.Name = Settings.Server.Name;
             Server.Password = Settings.Server.Password;
             Server.Timeout = Settings.Server.Timeout;
+
+            PermissionProvider = new PermissionProvider();
+            PermissionProvider.Load();
+            PermissionProvider.Save();
 
             PluginManager = new PluginManager();
             PluginManager.Init();

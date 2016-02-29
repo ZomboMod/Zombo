@@ -70,6 +70,12 @@
     <Compile Include="src\Entity\UPlayer.cs" />
     <Compile Include="src\Entity\UVehicle.cs" />
     <Compile Include="src\Entity\UZombie.cs" />
+    <Compile Include="src\Permission\IPermissible.cs" />
+    <Compile Include="src\Permission\IPermissionProvider.cs" />
+    <Compile Include="src\Permission\PermissionGroup.cs" />
+    <Compile Include="src\Permission\PermissionPlayer.cs" />
+    <Compile Include="src\Permission\PermissionProvider.cs" />
+    <Compile Include="src\Permission\PermissionStorage.cs" />
     <Compile Include="src\Plugin\PluginBase.cs" />
     <Compile Include="src\Plugin\PluginInfo.cs" />
     <Compile Include="src\Plugin\PluginLoader.cs" />
@@ -82,6 +88,14 @@
     <Compile Include="src\Zombo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>for /f "tokens=2 delims=," %25%25F in ('tasklist /nh /fi "WINDOWTITLE eq Zombo Server" /fo csv') do taskkill /PID %25%25~F /F
+EXIT 0</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>cd C:\Users\Leonardo\Documents\Unturned\Zombo
+START.bat</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

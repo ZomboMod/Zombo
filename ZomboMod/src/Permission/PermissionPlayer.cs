@@ -2,18 +2,13 @@
 
 namespace ZomboMod.Permission
 {
-    public class PermissionPlayer : IPermissible
+    public class PermissionPlayer
     {
         public ulong Id { get; set; }
 
         public HashSet<string> Permissions { get; }
 
         public HashSet<PermissionGroup> Groups { get; set; }
-
-        public bool HasPermission( string permission )
-        {
-            throw new System.NotImplementedException();
-        }
 
         public PermissionPlayer( ulong id, HashSet<string> permissions, HashSet<PermissionGroup> groups )
         {

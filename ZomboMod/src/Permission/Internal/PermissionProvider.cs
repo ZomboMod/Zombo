@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using ZomboMod.Common;
 using ZomboMod.Entity;
 
@@ -14,37 +13,6 @@ namespace ZomboMod.Permission.Internal
             Storage = new PermissionStorage();
         }
 
-        public List<string> GetPermissions( UPlayer player )
-        {
-            return GetPermissions( player.SteamProfile.SteamID.m_SteamID );
-        }
-
-        public List<string> GetPermissions( ulong playerId )
-        {
-            var ret = new List<string>();
-            PermissionPlayer permPlayer;
-            var groupFound = false;
-
-            if ( Storage.Players.TryGetValue( playerId, out permPlayer ) )
-            {
-                ret.AddRange( permPlayer.Permissions );
-
-                permPlayer.Groups.ForEach( g => {
-                    ret.AddRange( g.Permissions );
-                    groupFound = true;
-                } );
-            }
-
-            if ( !groupFound )
-            {
-                Storage.Groups.Values
-                        .Where( g => g.Players.Contains( playerId ) )
-                        .ForEach( g => ret.AddRange( g.Permissions ));
-            }
-            
-            return ret;
-        }
-
         public bool HasPermission( UPlayer player, string permission )
         {
             return HasPermission( player.SteamProfile.SteamID.m_SteamID, permission );
@@ -52,12 +20,17 @@ namespace ZomboMod.Permission.Internal
 
         public bool HasPermission( ulong playerId, string permission )
         {
-            throw new System.NotImplementedException();
+            return GetPlayer( playerId ).Permissions.Any( p => p.EqualsIgnoreCase( permission ) );
         }
 
         public PermissionGroup GetGroup( string name )
         {
             return Storage.Groups.GetOrDefault( name, null );
+        }
+
+        public PermissionPlayer GetPlayer( UPlayer player )
+        {
+            return GetPlayer( player.SteamProfile.SteamID.m_SteamID );
         }
 
         public PermissionPlayer GetPlayer( ulong playerId )

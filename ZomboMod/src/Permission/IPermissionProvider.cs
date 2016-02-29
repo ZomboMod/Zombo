@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using ZomboMod.Entity;
+﻿using ZomboMod.Entity;
 
 namespace ZomboMod.Permission
 {
     public interface IPermissionProvider
     {
-        List<string> GetPermissions( UPlayer player );
-
-        List<string> GetPermissions( ulong playerId );
-
         bool HasPermission( UPlayer player, string permission );
 
         bool HasPermission( ulong playerId, string permission );
 
         PermissionGroup GetGroup( string name );
+
+        PermissionPlayer GetPlayer( UPlayer player );
 
         PermissionPlayer GetPlayer( ulong playerId );
 

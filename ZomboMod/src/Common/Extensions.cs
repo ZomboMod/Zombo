@@ -16,6 +16,11 @@ namespace ZomboMod.Common
             foreach ( var obj in enumerable ) act( obj );
         }
 
+        public static void ForEach<T>( this HashSet<T> set, Action<T> act )
+        {
+            foreach ( var obj in set ) act( obj );
+        }
+
         public static V GetOrDefault<K, V>( this Dictionary<K, V> dict, K key, V def )
         {
             V value;
@@ -31,5 +36,7 @@ namespace ZomboMod.Common
         {
             return string.Compare( str, str2, StringComparison.InvariantCultureIgnoreCase ) == 0;
         }
+        
+        
     }
 }

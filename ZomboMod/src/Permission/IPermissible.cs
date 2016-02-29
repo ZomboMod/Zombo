@@ -7,7 +7,7 @@ namespace ZomboMod.Permission
     {
         HashSet<string> Permissions { get; }
 
-        HashSet<PermissionGroup> Groups { get; set; }
+        HashSet<PermissionGroup> Groups { get; }
 
         bool HasPermission( string permission );
     }

@@ -76,8 +76,10 @@ namespace ZomboMod.Permission.Internal
                     g.Value.Players,
                     Parents = g.Value.Parents.Select( gp => gp.Name )
                 } ),
-                Players = Players.ToDictionary( g => g.Key, p => new {
-                    p.Value.Permissions
+                Players = Players.ToDictionary( p => p.Key, p => new {
+                    Permissions = p.Value.Permissions.Where( perm => { // Leave only custom player permissions.
+                        return !p.Value.Groups.SelectMany( g => g.Permissions ).Contains( perm );
+                    })
                 } )
             };
 
@@ -175,13 +177,11 @@ namespace ZomboMod.Permission.Internal
                     }
 
                     var playerPermissions   = jObj.GetValue( "Permissions", igcase ) as JArray;
-                    var permissions         = new HashSet<string>();
-                    var groups              = new HashSet<PermissionGroup>( Groups.Values.Where( g => g.Players.Contains( playerId ) ) );
 
-                    if ( playerPermissions != null )
-                    {
-                        permissions = playerPermissions.ToObject<HashSet<string>>();
-                    }
+                    var groups              = new HashSet<PermissionGroup>( Groups.Values.Where( g => g.Players.Contains( playerId ) ) );
+                    var permissions         = new HashSet<string>( groups.SelectMany( g => g.Permissions ) );
+
+                    playerPermissions?.ToObject<HashSet<string>>().ForEach( perm => permissions.Add(perm) );
 
                     /*
                         Remove parent groups.

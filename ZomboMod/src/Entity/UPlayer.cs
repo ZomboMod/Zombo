@@ -10,15 +10,17 @@
  */
 
 using System;
+using System.Collections.Generic;
 using SDG.Unturned;
 using UnityEngine;
+using ZomboMod.Permission;
 using ZomboMod.Steam;
 
 using SDGPlayer = SDG.Unturned.Player;
 
 namespace ZomboMod.Entity
 {
-    public class UPlayer : IEntity, ILivingEntity
+    public class UPlayer : IEntity, ILivingEntity, IPermissible
     {
         public SteamProfile SteamProfile { get; }
 
@@ -165,6 +167,16 @@ namespace ZomboMod.Entity
             set { SDGPlayer.transform.position = value; }
         }
 
+        public HashSet<string> Permissions
+        {
+            get { return Zombo.PermissionProvider.GetPlayer( this ).Permissions; }
+        }
+
+        public HashSet<PermissionGroup> Groups
+        {
+            get { return Zombo.PermissionProvider.GetPlayer( this ).Groups; }
+        }
+
         public void Teleport( Vector3 position, float rotation )
         {
             throw new NotImplementedException();
@@ -213,6 +225,11 @@ namespace ZomboMod.Entity
         public void Kill()
         {
             throw new NotImplementedException();
+        }
+
+        public bool HasPermission( string permission )
+        {
+            return Zombo.PermissionProvider.HasPermission( this, permission );
         }
 
         internal UPlayer( SDGPlayer sdgPlayer )

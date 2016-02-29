@@ -9,9 +9,9 @@ namespace ZomboMod.Permission
 
         List<string> GetPermissions( ulong playerId );
 
-        bool HasPermission( UPlayer player );
+        bool HasPermission( UPlayer player, string permission );
 
-        bool HasPermission( ulong playerId );
+        bool HasPermission( ulong playerId, string permission );
 
         PermissionGroup GetGroup( string name );
 

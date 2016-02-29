@@ -22,12 +22,12 @@ namespace ZomboMod.Permission
             throw new System.NotImplementedException();
         }
 
-        public bool HasPermission( UPlayer player )
+        public bool HasPermission( UPlayer player, string permission )
         {
             throw new System.NotImplementedException();
         }
 
-        public bool HasPermission( ulong playerId )
+        public bool HasPermission( ulong playerId, string permission )
         {
             throw new System.NotImplementedException();
         }

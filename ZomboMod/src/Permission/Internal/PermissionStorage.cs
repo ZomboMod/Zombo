@@ -10,36 +10,6 @@ using ZomboMod.Common;
 namespace ZomboMod.Permission.Internal
 {
     /*
-
-        Tem que carregar os jogadores caso eles não estejam explicitos no arquivo
-
-        Definir PermissionGroup.Players para list de PermissionPlayer
-
-        Fazer igual no resolveParents
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         TODO: abstraction
 
         PermissionStorage

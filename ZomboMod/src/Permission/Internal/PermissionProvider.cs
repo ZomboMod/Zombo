@@ -47,7 +47,7 @@ namespace ZomboMod.Permission.Internal
 
         public bool HasPermission( UPlayer player, string permission )
         {
-            throw new System.NotImplementedException();
+            return HasPermission( player.SteamProfile.SteamID.m_SteamID, permission );
         }
 
         public bool HasPermission( ulong playerId, string permission )

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using ZomboMod.Common;
 
 namespace ZomboMod.Permission
 {
     public class PermissionGroup
     {
-        public string Name { get; internal set; }
+        public string Name { get; }
 
         public HashSet<string> Permissions { get; internal set; }
 
@@ -18,6 +20,11 @@ namespace ZomboMod.Permission
             Permissions = permissions;
             Players = players;
             Parents = parents;
+        }
+
+        public bool IsParentOf( PermissionGroup other )
+        {
+            return Parents.Any( g => g.Name.EqualsIgnoreCase( other.Name ) );
         }
     }
 }

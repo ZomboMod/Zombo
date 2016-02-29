@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace ZomboMod.Common
 {
@@ -19,6 +20,16 @@ namespace ZomboMod.Common
         {
             V value;
             return dict.TryGetValue( key, out value ) ? value : def;
+        }
+
+        public static bool ContainsIgnoreCase( this string str, string part )
+        {
+            return CultureInfo.InvariantCulture.CompareInfo.IndexOf( str, part, CompareOptions.IgnoreCase ) >= 0;
+        }
+
+        public static bool EqualsIgnoreCase( this string str, string str2 )
+        {
+            return string.Compare( str, str2, StringComparison.InvariantCultureIgnoreCase ) == 0;
         }
     }
 }

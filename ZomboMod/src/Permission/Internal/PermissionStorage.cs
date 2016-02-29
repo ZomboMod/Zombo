@@ -77,8 +77,7 @@ namespace ZomboMod.Permission.Internal
                     Parents = g.Value.Parents.Select( gp => gp.Name )
                 } ),
                 Players = Players.ToDictionary( g => g.Key, p => new {
-                    p.Value.Permissions,
-                    Groups = p.Value.Groups.Select( g => g.Name )
+                    p.Value.Permissions
                 } )
             };
 
@@ -176,28 +175,26 @@ namespace ZomboMod.Permission.Internal
                     }
 
                     var playerPermissions   = jObj.GetValue( "Permissions", igcase ) as JArray;
-                    var playerGroups        = jObj.GetValue( "Groups", igcase ) as JArray;
-
                     var permissions         = new HashSet<string>();
-                    var groups              = new HashSet<PermissionGroup>();
-                    
+                    var groups              = new HashSet<PermissionGroup>( Groups.Values.Where( g => g.Players.Contains( playerId ) ) );
+
                     if ( playerPermissions != null )
                     {
                         permissions = playerPermissions.ToObject<HashSet<string>>();
                     }
 
-                    playerGroups?.ToObject<HashSet<string>>().ForEach( gName => 
-                    {
-                        if ( !Groups.ContainsKey( gName ) )
-                        {
-                            //TODO Logger
-                            Console.WriteLine( $"Invalid player group '{gName}'(Not exist) in player '{playerId}'." );
-                            return;
-                        }
-                        groups.Add( Groups[gName.ToLowerInvariant()] );
+                    /*
+                        Remove parent groups.
+
+                        O(n²) D:
+                    */
+                    groups.RemoveWhere( g => {
+                        return groups.Any( p => p.IsParentOf(g) );
                     } );
 
                     Players.Add( playerId, new PermissionPlayer( playerId, permissions, groups ) );
+
+                    groups.ForEach( g => Console.WriteLine(g.Name) );
                 }
             }
             catch (Exception ex)

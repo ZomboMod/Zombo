@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Linq;
 using SDG.Unturned;
 using Steamworks;
+using ZomboMod.Common;
 using ZomboMod.Entity;
 
 namespace ZomboMod
@@ -115,10 +116,7 @@ namespace ZomboMod
 
         public UPlayer GetPlayer( string name )
         {
-            return ConnectedPlayers.FirstOrDefault( p => {
-                return CultureInfo.InvariantCulture.CompareInfo.IndexOf( name, 
-                                            p.Name, CompareOptions.IgnoreCase ) >= 0;
-            } ); 
+            return ConnectedPlayers.FirstOrDefault( p => p.Name.ContainsIgnoreCase( name ) ); 
         }
 
         public UPlayer GetPlayer( SteamPlayer steamPlayer )

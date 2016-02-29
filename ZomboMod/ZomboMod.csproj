@@ -75,8 +75,8 @@
     <Compile Include="src\Permission\IPermissionProvider.cs" />
     <Compile Include="src\Permission\PermissionGroup.cs" />
     <Compile Include="src\Permission\PermissionPlayer.cs" />
-    <Compile Include="src\Permission\PermissionProvider.cs" />
-    <Compile Include="src\Permission\PermissionStorage.cs" />
+    <Compile Include="src\Permission\Internal\PermissionProvider.cs" />
+    <Compile Include="src\Permission\Internal\PermissionStorage.cs" />
     <Compile Include="src\Plugin\PluginBase.cs" />
     <Compile Include="src\Plugin\PluginInfo.cs" />
     <Compile Include="src\Plugin\PluginLoader.cs" />

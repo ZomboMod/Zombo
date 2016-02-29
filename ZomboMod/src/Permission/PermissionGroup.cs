@@ -6,13 +6,13 @@ namespace ZomboMod.Permission
     {
         public string Name { get; internal set; }
 
-        public List<string> Permissions { get; internal set; }
+        public HashSet<string> Permissions { get; internal set; }
 
-        public List<ulong> Players { get; internal set; }
+        public HashSet<ulong> Players { get; internal set; }
 
-        public List<PermissionGroup> Parents { get; internal set; }
+        public HashSet<PermissionGroup> Parents { get; internal set; }
 
-        public PermissionGroup( string name, List<string> permissions, List<ulong> players, List<PermissionGroup> parents )
+        public PermissionGroup( string name, HashSet<string> permissions, HashSet<ulong> players, HashSet<PermissionGroup> parents )
         {
             Name = name;
             Permissions = permissions;

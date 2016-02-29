@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ZomboMod.Common;
 
-namespace ZomboMod.Permission
+namespace ZomboMod.Permission.Internal
 {
     /*
         TODO: abstraction
@@ -43,7 +45,7 @@ namespace ZomboMod.Permission
 
                 var me = new {
                     Permissions = new List<string>(),
-                    Groups = new List<string>() { "vip" }  
+                    Groups = new List<string> { "vip" }  
                 };
 
                 var all = new {
@@ -68,7 +70,9 @@ namespace ZomboMod.Permission
         {
             var all = new {
                 Groups = Groups.ToDictionary( g => g.Key, g => new {
-                    g.Value.Permissions,
+                    Permissions = g.Value.Permissions.Where( p => {
+                        return !g.Value.Parents.SelectMany( par => par.Permissions ).Contains( p );
+                    } ),
                     g.Value.Players,
                     Parents = g.Value.Parents.Select( gp => gp.Name )
                 } ),
@@ -111,17 +115,17 @@ namespace ZomboMod.Permission
                     var groupPlayers        = jObj.GetValue( "Players", igcase ) as JArray;
                     var groupParents        = jObj.GetValue( "Parents", igcase ) as JArray;
 
-                    var permissions         = new List<string>();
-                    var players             = new List<ulong>();
+                    var permissions         = new HashSet<string>();
+                    var players             = new HashSet<ulong>();
 
                     if ( groupPermissions != null )
                     {
-                        permissions = groupPermissions.ToObject<List<string>>();
+                        permissions = groupPermissions.ToObject<HashSet<string>>();
                     }
 
                     if ( groupPlayers != null )
                     {
-                        players = groupPlayers.ToObject<List<ulong>>();
+                        players = groupPlayers.ToObject<HashSet<ulong>>();
                     }
 
                     if ( groupParents != null )
@@ -142,7 +146,7 @@ namespace ZomboMod.Permission
                 foreach ( var pair in parentsToResolve )
                 {
                     var group = Groups[pair.Key];
-                    var parents = new List<PermissionGroup>();
+                    var parents = new HashSet<PermissionGroup>();
                     
                     foreach ( var parentName in pair.Value )
                     {
@@ -152,10 +156,12 @@ namespace ZomboMod.Permission
                             Console.WriteLine( $"Invalid parent '{parentName}'(Not exist) in group '{group.Name}'." );
                             return;
                         }
+
                         parents.Add( Groups[parentName] );
                     }
 
                     group.Parents = parents;
+                    parents.SelectMany( p => p.Permissions ).ForEach( p => group.Permissions.Add(p) );
                 }
 
                 foreach ( var obj in playersArray )
@@ -172,15 +178,15 @@ namespace ZomboMod.Permission
                     var playerPermissions   = jObj.GetValue( "Permissions", igcase ) as JArray;
                     var playerGroups        = jObj.GetValue( "Groups", igcase ) as JArray;
 
-                    var permissions         = new List<string>();
-                    var groups              = new List<PermissionGroup>();
+                    var permissions         = new HashSet<string>();
+                    var groups              = new HashSet<PermissionGroup>();
                     
                     if ( playerPermissions != null )
                     {
-                        permissions = playerPermissions.ToObject<List<string>>();
+                        permissions = playerPermissions.ToObject<HashSet<string>>();
                     }
 
-                    playerGroups?.ToObject<List<string>>().ForEach( gName => 
+                    playerGroups?.ToObject<HashSet<string>>().ForEach( gName => 
                     {
                         if ( !Groups.ContainsKey( gName ) )
                         {

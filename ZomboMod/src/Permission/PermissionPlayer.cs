@@ -6,16 +6,16 @@ namespace ZomboMod.Permission
     {
         public ulong Id { get; set; }
 
-        public List<string> Permissions { get; }
+        public HashSet<string> Permissions { get; }
 
-        public List<PermissionGroup> Groups { get; set; }
+        public HashSet<PermissionGroup> Groups { get; set; }
 
         public bool HasPermission( string permission )
         {
             throw new System.NotImplementedException();
         }
 
-        public PermissionPlayer( ulong id, List<string> permissions, List<PermissionGroup> groups )
+        public PermissionPlayer( ulong id, HashSet<string> permissions, HashSet<PermissionGroup> groups )
         {
             Id = id;
             Permissions = permissions;

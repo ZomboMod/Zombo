@@ -66,7 +66,7 @@ namespace ZomboMod
         public static IPermissionProvider PermissionProvider { get; private set; }
 
         /// <summary>
-        /// Called dinamically by ZomboCore.
+        /// Called by ZomboCore.
         /// </summary>
         private static void Init()
         {

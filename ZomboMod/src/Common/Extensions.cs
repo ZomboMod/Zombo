@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -36,7 +36,5 @@ namespace ZomboMod.Common
         {
             return string.Compare( str, str2, StringComparison.InvariantCultureIgnoreCase ) == 0;
         }
-        
-        
     }
 }
